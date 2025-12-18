@@ -8,6 +8,7 @@
     그렇다면 ‘사용성’은 어떻게 커버할 수 있을까요?
     - UI 와 함께 따라오는 개념인 UX(사용성)에 대해서도 고민하며 만들어봅시다.
 
+
  ## 기본조건
 - 프로젝트 명은 `tasks`입니다.
 - 초기 화면의 이름은 `HomePage`로 합니다
@@ -18,3 +19,18 @@
 - final String? description;
 - final bool isFavorite;
 - final bool isDone;
+
+ ## 기본 화면 (To Do 리스트가 없는 화면) 만들기
+ 
+ ## 레이아웃  나누기
+
+ ### AppBar
+    - Text
+ ### Body
+    - ListView
+        - Container
+            - Column
+                - Icon
+             - Text
+             - Text
+        - floatingActionButton 
