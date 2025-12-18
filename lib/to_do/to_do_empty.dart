@@ -1,5 +1,4 @@
-// 비어있는
-
+// 할 일 없을 때 표시되는 화면
 import 'package:flutter/material.dart';
 
 class Empty extends StatelessWidget {
