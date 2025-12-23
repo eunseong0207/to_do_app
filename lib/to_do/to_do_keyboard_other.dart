@@ -1,37 +1,111 @@
 import 'package:flutter/material.dart';
+import 'package:tasks/to_do/to_do_entity.dart';
 
-class Keyboard extends StatelessWidget {
-  const Keyboard({super.key});
+class Keyboard extends StatefulWidget {
+  Keyboard({super.key, required this.onCreate});
+
+  final void Function(ToDoEntity) onCreate;
+
+  @override
+  State<Keyboard> createState() => KeyboardState();
+}
+
+class KeyboardState extends State<Keyboard> {
+  bool showdesc = false;
+  bool onFavorite = false;
+
+  TextEditingController textcontroller = TextEditingController();
+
+  void saveTodo() {
+    //
+    widget.onCreate(
+      ToDoEntity(
+        title: textcontroller.text,
+        description: "0",
+        isFavorite: onFavorite,
+        isDone: false,
+      ),
+    );
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textcontroller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 12,
-        left: 10,
-        right: 10,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 30,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            style: TextStyle(fontSize: 16),
-            decoration: InputDecoration(
-              hintText: '새 할일',
-              border: InputBorder.none,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        // 빈 공간 터치할 때 키보드 내려가도록 설정
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 12,
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 15,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: textcontroller,
+              autofocus: true,
+              style: TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                hintText: '새 할일',
+                border: InputBorder.none,
+              ),
+              textInputAction: TextInputAction.done,
+              onSubmitted: (value) {},
             ),
-          ),
-          // SizedBox(height: 10),
-          Row(
-            children: [
-              Icon(Icons.short_text_rounded, size: 24),
-              Icon(Icons.star_border, size: 24),
-              Spacer(),
-              Text("저장"),
-            ],
-          ),
-        ],
+            // SizedBox(height: 10),
+            if (showdesc)
+              TextField(
+                minLines: 1,
+                maxLines: 3,
+                textInputAction: TextInputAction.newline,
+                decoration: InputDecoration(
+                  hintText: "세부정보 추가",
+                  border: InputBorder.none,
+                ),
+              ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    showdesc = !showdesc;
+                    setState(() {});
+                  },
+                  child: Icon(Icons.short_text_rounded, size: 24),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      onFavorite = !onFavorite;
+                    });
+                  },
+                  icon: onFavorite
+                      ? Icon(Icons.star, size: 24, color: Colors.black)
+                      : Icon(Icons.star_border, size: 24, color: Colors.black),
+                ),
+                Spacer(),
+                GestureDetector(
+                  
+                  onTap: () {
+                    saveTodo();
+                  },
+                  child: Text("저장"),
+                ),
+                SizedBox(width: 10),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ class Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -25,7 +26,7 @@ class Empty extends StatelessWidget {
           ),
           SizedBox(height: 12),
           Text(
-            "할 일을 추가하고 $name에서 \n 할 일을 추적하세요.",
+            "할 일을 추가하고 $name에서 \n할 일을 추적하세요.",
             style: TextStyle(fontSize: 14, height: 1.5),
             textAlign: TextAlign.center,
             // 글자 가운데 정렬

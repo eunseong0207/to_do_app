@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:tasks/to_do/todo_view.dart';
 import 'package:tasks/to_do/to_do_empty.dart';
+import 'package:tasks/to_do/to_do_entity.dart';
 import 'package:tasks/to_do/to_do_keyboard_other.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<ToDoEntity> todoList = [];
+
+  void onCreate(ToDoEntity newtodo) {
+    setState(() {
+      todoList.add(newtodo);
+    });
+  }
+
   String name = "은성`s Tasks";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +39,7 @@ class HomePage extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return Keyboard();
+              return SingleChildScrollView(child: Keyboard(onCreate: onCreate));
             },
           );
         },
@@ -32,11 +50,27 @@ class HomePage extends StatelessWidget {
         child: Icon(Icons.add, color: Colors.white),
       ),
       // ----- 빨간배경 + 버튼 종료 -----
-      body: ListView(children: [Empty(name: name)]),
       resizeToAvoidBottomInset: false,
-      // FloatingActionButton 위치 변하지 않게 사용함
+      body: Column(
+        children: [
+          todoList.isNotEmpty
+              ? TodoView(
+                  items: todoList,
+                  onDone: (int index, bool value) {
+                    setState(() {
+                      todoList[index].isDone = value;
+                    });
+                  },
+                  onFavorite: (int index, bool value) {
+                    setState(() {
+                      todoList[index].isFavorite = value;
+                    });
+                  },
+                )
+              : Empty(name: name),
+          //TODO onDone을 참고해서 페이보릿 구현하기
+        ],
+      ),
     );
   }
-
-  //
 }

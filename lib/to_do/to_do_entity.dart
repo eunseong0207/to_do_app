@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class ToDoEntity extends StatelessWidget {
-  ToDoEntity({
+  ToDoEntity({super.key, 
     required this.title,
     required this.description,
     required this.isFavorite,
@@ -11,11 +11,13 @@ class ToDoEntity extends StatelessWidget {
 
   final String title;
   final String? description;
-  final bool isFavorite;
-  final bool isDone;
+  bool isFavorite;
+  bool isDone;
 
   @override
   Widget build(Object context) {
     return Text("data");
   }
+
+  static void add(ToDoEntity newTodoEntiy) {}
 }
