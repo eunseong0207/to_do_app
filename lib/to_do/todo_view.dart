@@ -6,13 +6,13 @@ import 'package:tasks/to_do/to_do_view_item.dart';
 class TodoView extends StatefulWidget {
   const TodoView({
     super.key,
-    required this.items,
-    required this.onDone,
-    required this.onFavorite,
+    required this.toList,
+    required this.onToggleDone,
+    required this.onTogglFavorite,
   });
-  final List<ToDoEntity> items;
-  final void Function(int index, bool value) onDone;
-  final void Function(int index, bool value) onFavorite;
+  final List<ToDoEntity> toList;
+  final void Function(int index, bool value) onToggleDone;
+  final void Function(int index, bool value) onTogglFavorite;
 
   @override
   State<TodoView> createState() => TodoViewState();
@@ -24,27 +24,28 @@ class TodoViewState extends State<TodoView> {
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 200),
-        itemCount: widget.items.length,
+        itemCount: widget.toList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TodoDetailPage(realtodo: []),
+                  builder: (context) =>
+                      TodoDetailPage(realtodo: widget.toList, index: index,onTogglFavorite: widget.onTogglFavorite),
                 ),
               );
             },
             child: TodoViewitem(
               index: index,
-              content: widget.items[index].title,
-              isDone: widget.items[index].isDone,
+              content: widget.toList[index].title,
+              isDone: widget.toList[index].isDone,
               onDone: (index, value) {
-                widget.onDone(index, value);
+                widget.onToggleDone(index, value);
               },
-              isFavorite: widget.items[index].isFavorite,
+              isFavorite: widget.toList[index].isFavorite,
               onFavorite: (int index, bool value) {
-                widget.onFavorite(index, value);
+                widget.onTogglFavorite(index, value);
               },
             ),
           );

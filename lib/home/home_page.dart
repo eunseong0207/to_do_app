@@ -55,20 +55,19 @@ class _HomePageState extends State<HomePage> {
         children: [
           todoList.isNotEmpty
               ? TodoView(
-                  items: todoList,
-                  onDone: (int index, bool value) {
+                  toList: todoList,
+                  onToggleDone: (int index, bool value) {
                     setState(() {
                       todoList[index].isDone = value;
                     });
                   },
-                  onFavorite: (int index, bool value) {
+                  onTogglFavorite: (int index, bool value) {
                     setState(() {
                       todoList[index].isFavorite = value;
                     });
                   },
                 )
               : Empty(name: name),
-          //TODO onDone을 참고해서 페이보릿 구현하기
         ],
       ),
     );

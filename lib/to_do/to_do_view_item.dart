@@ -27,9 +27,10 @@ class _TodoViewitemState extends State<TodoViewitem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       margin: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
+        color: Colors.white70,
         border: Border.all(color: Colors.black26),
         borderRadius: BorderRadius.circular(12),
       ),
@@ -55,7 +56,15 @@ class _TodoViewitemState extends State<TodoViewitem> {
           ),
           SizedBox(width: 20),
           //
-          Expanded(child: Text(widget.content)),
+          Expanded(
+            child: Text(
+              widget.content,
+              style: TextStyle(
+                decoration: widget.isDone ? TextDecoration.lineThrough : null,
+                //
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {
               widget.onFavorite(widget.index, !widget.isFavorite);
@@ -64,7 +73,6 @@ class _TodoViewitemState extends State<TodoViewitem> {
                 ? Icon(Icons.star, size: 24, color: Colors.black)
                 : Icon(Icons.star_border, size: 24, color: Colors.black),
           ),
-          SizedBox(width: 8),
         ],
       ),
     );

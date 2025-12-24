@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tasks/to_do/to_do_entity.dart';
 
 class Keyboard extends StatefulWidget {
-  Keyboard({super.key, required this.onCreate});
+  const Keyboard({super.key, required this.onCreate});
 
   final void Function(ToDoEntity) onCreate;
 
@@ -12,17 +12,22 @@ class Keyboard extends StatefulWidget {
 
 class KeyboardState extends State<Keyboard> {
   bool showdesc = false;
-  bool onFavorite = false;
+  bool onTogglFavorite = false;
 
   TextEditingController textcontroller = TextEditingController();
+  TextEditingController descriptioncontorller = TextEditingController();
 
   void saveTodo() {
     //
+    if (textcontroller.text.isEmpty) {
+      return;
+    }
+
     widget.onCreate(
       ToDoEntity(
         title: textcontroller.text,
-        description: "0",
-        isFavorite: onFavorite,
+        description: descriptioncontorller.text,
+        isFavorite: onTogglFavorite,
         isDone: false,
       ),
     );
@@ -63,9 +68,9 @@ class KeyboardState extends State<Keyboard> {
               textInputAction: TextInputAction.done,
               onSubmitted: (value) {},
             ),
-            // SizedBox(height: 10),
             if (showdesc)
               TextField(
+                controller: descriptioncontorller,
                 minLines: 1,
                 maxLines: 3,
                 textInputAction: TextInputAction.newline,
@@ -86,19 +91,19 @@ class KeyboardState extends State<Keyboard> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      onFavorite = !onFavorite;
+                      onTogglFavorite = !onTogglFavorite;
                     });
                   },
-                  icon: onFavorite
+                  icon: onTogglFavorite
                       ? Icon(Icons.star, size: 24, color: Colors.black)
                       : Icon(Icons.star_border, size: 24, color: Colors.black),
                 ),
                 Spacer(),
                 GestureDetector(
-                  
                   onTap: () {
                     saveTodo();
                   },
+
                   child: Text("저장"),
                 ),
                 SizedBox(width: 10),
